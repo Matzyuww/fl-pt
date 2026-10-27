@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="ALGOCORE is an interactive Data Structures and Algorithms simulator for learning and visualizing algorithms."
+  >
+
+  <title>ALGOCORE | Interactive DSA Simulator</title>
+
+  <!-- External stylesheet -->
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">A/</div>
+
+        <div>
+          <h1>ALGOCORE</h1>
+          <small>THE ALGORITHM LAB</small>
+        </div>
+      </div>
+
+      <div class="status">
+        <span class="dot"></span>
+        SYSTEM ONLINE
+      </div>
+    </header>
+
+    <!-- INTRODUCTION -->
+    <section class="hero">
+      <div>
+        <div class="eyebrow">
+          INTERACTIVE DSA SIMULATOR / V.1.0
+        </div>
+
+        <h2>
+          Think in logic.<br>
+          <span>See the algorithm.</span>
+        </h2>
+
+        <p>
+          Explore how algorithms think. Run live simulations,
+          inspect each operation, and compare performance —
+          one step at a time.
+        </p>
+      </div>
+
+      <div class="hero-chip">
+        <strong>
+          05 <span style="color: var(--cyan)">CORE</span>
+        </strong>
+        <small>Algorithms available</small>
+      </div>
+    </section>
+
+    <!-- MAIN LAYOUT -->
+    <div class="layout">
+
+      <!-- ALGORITHM SIDEBAR -->
+      <aside class="sidebar">
+        <div class="side-label">
+          ALGORITHM SELECTOR
+        </div>
+
+        <button
+          type="button"
+          class="algo-btn active"
+          data-algo="bubble"
+        >
+          <span class="algo-icon">↕</span>
+
+          <span>
+            <strong>Bubble Sort</strong>
+            <small>Adjacent comparisons</small>
+          </span>
+        </button>
+
+        <button
+          type="button"
+          class="algo-btn"
+          data-algo="selection"
+        >
+          <span class="algo-icon">↓</span>
+
+          <span>
+            <strong>Selection Sort</strong>
+            <small>Find the minimum</small>
+          </span>
+        </button>
+
+        <button
+          type="button"
+          class="algo-btn"
+          data-algo="merge"
+        >
+          <span class="algo-icon">⌘</span>
+
+          <span>
+            <strong>Merge Sort</strong>
+            <small>Divide and conquer</small>
+          </span>
+        </button>
+
+        <button
+          type="button"
+          class="algo-btn"
+          data-algo="linear"
+        >
+          <span class="algo-icon">⌕</span>
+
+          <span>
+            <strong>Linear Search</strong>
+            <small>Sequential scan</small>
+          </span>
+        </button>
+
+        <button
+          type="button"
+          class="algo-btn"
+          data-algo="binary"
+        >
+          <span class="algo-icon">⌖</span>
+
+          <span>
+            <strong>Binary Search</strong>
+            <small>Halve the search space</small>
+          </span>
+        </button>
+
+        <div class="side-note">
+          <strong>✦ LAB OBJECTIVE</strong>
+
+          Visualize algorithm behavior and understand how
+          input size and strategy affect efficiency.
+        </div>
+      </aside>
+
+      <!-- MAIN WORKSPACE -->
+      <main class="workspace">
+
+        <!-- ALGORITHM VISUALIZATION -->
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h3 id="algoTitle">
+                Bubble Sort
+                <span class="tag">SORTING</span>
+              </h3>
+
+              <div class="sub" id="algoDesc">
+                Compare neighboring values and swap them when
+                out of order.
+              </div>
+            </div>
+
+            <span class="tag" id="complexity">
+              O(n²)
+            </span>
+          </div>
+
+          <!-- SIMULATION CONTROLS -->
+          <div class="controls">
+            <button type="button" id="randomBtn">
+              ⟳ Randomize
+            </button>
+
+            <input
+              type="number"
+              id="size"
+              min="5"
+              max="36"
+              value="18"
+              aria-label="Array size"
+            >
+
+            <button type="button" id="applySize">
+              Set size
+            </button>
+
+            <select id="speed" aria-label="Animation speed">
+              <option value="650">Slow motion</option>
+              <option value="300" selected>Normal speed</option>
+              <option value="90">Turbo</option>
+            </select>
+
+            <button
+              type="button"
+              class="primary"
+              id="runBtn"
+            >
+              ▶ Run simulation
+            </button>
+
+            <button type="button" id="stepBtn">
+              Step →
+            </button>
+
+            <button type="button" id="resetBtn">
+              ↺ Reset
+            </button>
+          </div>
+
+          <!-- JAVASCRIPT DRAWS THE ARRAY HERE -->
+          <div
+            class="viz"
+            id="viz"
+            role="img"
+            aria-label="Animated algorithm visualization"
+          ></div>
+
+          <!-- VISUALIZATION LEGEND -->
+          <div class="viz-footer">
+            <div class="legend">
+              <span>
+                <i class="swatch"></i>
+                Unprocessed
+              </span>
+
+              <span>
+                <i
+                  class="swatch"
+                  style="background: var(--orange)"
+                ></i>
+                Comparing
+              </span>
+
+              <span>
+                <i
+                  class="swatch"
+                  style="background: var(--red)"
+                ></i>
+                Swapping
+              </span>
+
+              <span>
+                <i
+                  class="swatch"
+                  style="background: var(--green)"
+                ></i>
+                Sorted / found
+              </span>
+            </div>
+
+            <span id="progress">
+              Ready to initialize
+            </span>
+          </div>
+        </section>
+
+        <!-- PERFORMANCE METRICS -->
+        <section class="metrics">
+          <div class="metric">
+            <small>COMPARISONS</small>
+            <strong id="comparisons">0</strong>
+            <em>Value checks</em>
+          </div>
+
+          <div class="metric">
+            <small>SWAPS / MOVES</small>
+            <strong id="swaps">0</strong>
+            <em>Data operations</em>
+          </div>
+
+          <div class="metric">
+            <small>ARRAY LENGTH</small>
+            <strong id="length">18</strong>
+            <em>Input elements</em>
+          </div>
+
+          <div class="metric">
+            <small>ELAPSED TIME</small>
+            <strong id="elapsed">
+              0.00<span style="font-size: 12px">s</span>
+            </strong>
+            <em id="state">Ready</em>
+          </div>
+        </section>
+
+        <!-- PSEUDOCODE AND EXECUTION TRACE -->
+        <div class="lower">
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Algorithm blueprint</h3>
+
+                <div class="sub">
+                  Pseudocode · Current strategy
+                </div>
+              </div>
+
+              <span class="tag">LOGIC VIEW</span>
+            </div>
+
+            <pre class="code" id="code">for i = 0 to n - 1
+  for j = 0 to n - i - 2
+    if A[j] > A[j + 1]
+      swap(A[j], A[j + 1])</pre>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Execution trace</h3>
+
+                <div class="sub">
+                  A live log of algorithm decisions
+                </div>
+              </div>
+
+              <span class="tag" id="traceCount">
+                0 EVENTS
+              </span>
+            </div>
+
+            <div
+              class="trace"
+              id="trace"
+              aria-live="polite"
+            >
+              <div class="trace-item">
+                System initialized. Choose an algorithm and
+                run the simulation.
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- SEARCH CONSOLE -->
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Search target</h3>
+
+              <div class="sub">
+                Choose a value and watch the algorithm locate it.
+              </div>
+            </div>
+
+            <span class="tag">SEARCH CONSOLE</span>
+          </div>
+
+          <div class="searchbox">
+            <input
+              type="number"
+              id="target"
+              value="42"
+              aria-label="Search target value"
+              disabled
+            >
+
+            <button
+              type="button"
+              class="primary"
+              id="searchBtn"
+              disabled
+            >
+              ⌕ Find target
+            </button>
+
+            <button
+              type="button"
+              id="setTarget"
+              disabled
+            >
+              Use a value from array
+            </button>
+          </div>
+
+          <div
+            class="result"
+            id="searchResult"
+            aria-live="polite"
+          >
+            Select Linear Search or Binary Search to activate
+            search mode.
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      ALGOCORE // LEARN THE LOGIC BEHIND THE CODE //
+      BUILT FOR EXPLORATION
+    </footer>
+
+  </div>
+
+  <!-- LOAD JAVASCRIPT FROM ITS OWN FILE -->
+  <script src="./script.js"></script>
+</body>
+</html>
